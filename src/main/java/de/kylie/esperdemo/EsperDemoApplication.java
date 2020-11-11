@@ -1,5 +1,6 @@
 package de.kylie.esperdemo;
 
+import de.kylie.esperdemo.parser.SSHLogReader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

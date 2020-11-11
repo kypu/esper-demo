@@ -1,7 +1,6 @@
-package de.kylie.esperdemo;
+package de.kylie.esperdemo.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.kylie.esperdemo.model.SSHLogMessage;
 import org.slf4j.Logger;
@@ -22,13 +21,14 @@ public class SSHLogReader implements Runnable {
     @Override
     public void run() {
         try {
-            process = Runtime.getRuntime().exec("journalctl -u ssh.service -o json");
+            process = Runtime.getRuntime().exec("journalctl -u ssh.service -o json -f");
             BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            jsonString = br.readLine();
-            while (jsonString != null) {
-                logger.info(jsonString);
-                mapToSSHMessage(jsonString.toLowerCase());
+            while (process.isAlive()) {
                 jsonString = br.readLine();
+                if (jsonString != null) {
+                    mapToSSHMessage(jsonString.toLowerCase());
+                    jsonString = br.readLine();
+                }
             }
         } catch (IOException ex) {
             logger.error(ex.getMessage());
@@ -37,6 +37,7 @@ public class SSHLogReader implements Runnable {
 
     private void mapToSSHMessage(String jsonString) {
         try {
+            logger.info("Mapping " + jsonString);
             SSHLogMessage newMessage = jsonMapper.readValue(jsonString, SSHLogMessage.class);
             logger.info("Mapped json to " + newMessage);
         } catch (JsonProcessingException ex) {

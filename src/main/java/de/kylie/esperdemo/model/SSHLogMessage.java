@@ -1,17 +1,21 @@
 package de.kylie.esperdemo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import de.kylie.esperdemo.parser.SSHLogDeserializer;
+import lombok.*;
 
-@RequiredArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+import java.security.Timestamp;
+
+@AllArgsConstructor
+@Getter
+@Setter
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = SSHLogDeserializer.class)
 public class SSHLogMessage {
 
     String message;
-    String syslog_timestamp;
-    String _hostname;
+    Long timestamp;
 
 }
