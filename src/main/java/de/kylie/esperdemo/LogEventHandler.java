@@ -31,7 +31,7 @@ public class LogEventHandler {
         CompilerArguments args = new CompilerArguments(configuration);
 
         try {
-            epCompiled = compiler.compile("@name('my-statement') select message from LogEvent", args);
+            epCompiled = compiler.compile("@name('my-statement') select message from SSHLogEvent", args);
         }
         catch (EPCompileException ex) {
             // handle exception here
