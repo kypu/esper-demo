@@ -13,14 +13,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @AllArgsConstructor
-public class SSHLogReader implements Runnable {
+public class SSHLogReader {
 
     private static final Logger logger = LoggerFactory.getLogger(SSHLogReader.class);
     private final ObjectMapper jsonMapper = new ObjectMapper();
     private final EPRuntime esperRuntime;
 
-    @Override
-    public void run() {
+    public void start() {
         Process process;
         try {
             process = Runtime.getRuntime().exec("journalctl -u ssh.service -o json -f");

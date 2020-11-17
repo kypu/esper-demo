@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class SSHLogDeserializer extends StdDeserializer<SSHLogMessage> {
 
-    // do not delete, this is required even though intellij doesn't think so
     public SSHLogDeserializer() {
         this(null);
     }
