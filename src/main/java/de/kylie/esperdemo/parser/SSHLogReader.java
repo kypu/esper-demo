@@ -41,7 +41,7 @@ public class SSHLogReader {
         try {
             SSHLogMessage newMessage = jsonMapper.readValue(jsonString, SSHLogMessage.class);
             esperRuntime.getEventService().sendEventBean(newMessage, "SSHLogMessage");
-            logger.info("Mapped and sent: " + newMessage);
+            // logger.info("Mapped and sent: " + newMessage);
         } catch (JsonProcessingException ex) {
             logger.warn(ex.getMessage());
         }

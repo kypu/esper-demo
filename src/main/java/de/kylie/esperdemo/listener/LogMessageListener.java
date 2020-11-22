@@ -14,7 +14,7 @@ public class LogMessageListener implements UpdateListener {
 
     @Override
     public void update(EventBean[] newData, EventBean[] oldData, EPStatement epStatement, EPRuntime epRuntime) {
-        logger.info("failed log message received: " + newData[0].toString());
+        // logger.info("failed log message received: " + newData[0].toString());
         String failedMessage = newData[0].get("message").toString();
         String ipAddress = failedMessage.split(" ")[5];
         epRuntime.getEventService().sendEventBean(new SSHFailedLogMessage(ipAddress), "SSHFailedLogMessage");

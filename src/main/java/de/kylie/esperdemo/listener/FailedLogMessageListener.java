@@ -18,7 +18,7 @@ public class FailedLogMessageListener implements UpdateListener {
 
     @Override
     public void update(EventBean[] newData, EventBean[] oldData, EPStatement epStatement, EPRuntime epRuntime) {
-        logger.info("failed log messages received: " + newData.toString());
+        // logger.info("failed log messages received: " + newData.toString());
         Map<String, Long> attemptsByIpAd = Arrays.stream(newData)
                 .map(event -> event.get("ipAddress").toString())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));

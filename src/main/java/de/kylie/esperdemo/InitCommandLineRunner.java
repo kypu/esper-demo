@@ -63,17 +63,17 @@ public class InitCommandLineRunner implements CommandLineRunner {
         esperConfig.getCommon().addEventType(SSHAlert.class);
         esperRuntime = EPRuntimeProvider.getDefaultRuntime(esperConfig);
         // create esper statements
-        String rawStringA = "@name('statement-a') select * from SSHLogMessage where isFailedLogin = true";
-        String rawStringB = "@name('statement-b') select * from SSHFailedLogMessage.win:time_length_batch(" + seconds + " sec, " + numberFailedLogins + ")";
-        String rawStringC = "@name('statement-c') select * from SSHAlert";
+        String failedLoginFilter_raw = "@name('failed-login') select * from SSHLogMessage where isFailedLogin = true";
+        String countFails_raw = "@name('count-fails') select * from SSHFailedLogMessage.win:time_length_batch(" + seconds + " sec, " + numberFailedLogins + ")";
+        String allAlerts_raw = "@name('all-alerts') select * from SSHAlert";
         CompilerArguments compilerArgs = new CompilerArguments(esperConfig);
-        EPStatement statementA = prepareEPStatement("statement-a", rawStringA, compilerArgs);
-        EPStatement statementB = prepareEPStatement("statement-b", rawStringB, compilerArgs);
-        EPStatement statementC = prepareEPStatement("statement-c", rawStringC, compilerArgs);
+        EPStatement failedLogin = prepareEPStatement("failed-login", failedLoginFilter_raw, compilerArgs);
+        EPStatement countFails = prepareEPStatement("count-fails", countFails_raw, compilerArgs);
+        EPStatement allAlerts = prepareEPStatement("all-alerts", allAlerts_raw, compilerArgs);
         // add listeners
-        statementA.addListener(new LogMessageListener());
-        statementB.addListener(new FailedLogMessageListener());
-        statementC.addListener(new SSHAlertListener());
+        failedLogin.addListener(new LogMessageListener());
+        countFails.addListener(new FailedLogMessageListener());
+        allAlerts.addListener(new SSHAlertListener());
     }
 
     /**
