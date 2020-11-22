@@ -63,7 +63,7 @@ public class InitCommandLineRunner implements CommandLineRunner {
         esperConfig.getCommon().addEventType(SSHAlert.class);
         esperRuntime = EPRuntimeProvider.getDefaultRuntime(esperConfig);
         // create esper statements
-        String failedLoginFilter_raw = "@name('failed-login') select * from SSHLogMessage where isFailedLogin = true";
+        String failedLoginFilter_raw = "@name('failed-login') select * from SSHLogMessage(isFailedLogin = true)";
         String countFails_raw = "@name('count-fails') select * from SSHFailedLogMessage.win:time_length_batch(" + seconds + " sec, " + numberFailedLogins + ")";
         String allAlerts_raw = "@name('all-alerts') select * from SSHAlert";
         CompilerArguments compilerArgs = new CompilerArguments(esperConfig);
